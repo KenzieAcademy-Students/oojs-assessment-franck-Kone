@@ -1,11 +1,15 @@
 /* Write your CSS Here. */
 body {
+  background-image: url('https://i.redd.it/dnlz6c3xni951.jpg');
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   height: 100vh;
   overflow: hidden;
-}
+ }
+/* https: //assets.pokemon.com/assets/cms2/img/watch-pokemon-tv/seasons/season15/season15_ep23_ss01.jpg  */
+/* https: //ssb.wiki.gallery/images/thumb/7/73/SSBU-Pok%C3%A9mon_Stadium_2.png/1200px-SSBU-Pok%C3%A9mon_Stadium_2.png */
 
 main {
   width: 100%;
@@ -107,28 +111,38 @@ left: 15%;
   position: absolute;
   top: 100px;
 }
+.charmanderContainer img:last-child{
+  position: absolute;
+ top: 90px;
+  right: 55%;
+}
 .charmander{
   width: 100px;
 }
 
 .eeveeDiv{
-  margin: 0 auto;
+  margin: 0 80px 50px 25px;
     position: absolute;
-    top: 10px;
+    top: 5%;
     left: 20%;
 }
 .eevee{
   width: 100px;
 }
-
+.eeveeDiv img:last-child{
+  position: absolute;
+  right: 45%;
+  top: 300px;
+}
+.eeveeDiv img:first-child{
+  position: absolute;
+    right: 3000px;
+    top: 150px;
+}
 
 div {
   width: 100%;
-  height: 200px;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: flex-start;
+  height: 100px;
 }
 div img:nth-of-type(1){
   position: absolute;
