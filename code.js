@@ -1,16 +1,3 @@
-// This function is provided to shake an image.  Use it every time the user clicks on a pokemon.
-// Feel free to delete this function and include it as a method within your classes...
-// const toggleShake = function (element) {
-//   // Animations only occur when a new class is added to the element.
-//   // Since we want this to happen every time, we can switch between two different animations
-//   if (element.classList.contains("shake1")) {
-//     element.classList.remove("shake1");
-//     element.classList.add("shake2")
-//   } else {
-//     element.classList.remove("shake2");
-//     element.classList.add("shake1")
-//   }
-// }
 
 const main = document.querySelector("main");
 
@@ -18,35 +5,39 @@ const main = document.querySelector("main");
 
 class Flowers {
   constructor() {
+
     this.image = document.createElement('img');
     this.imagePaths = ['images/flower/flower0.png', 'images/flower/flower1.png', 'images/flower/flower2.png'];
     this.index = 0;
     this.lastTransformation = false;
+    this.ballAlreadyBroken = false;
     main.append(this.image)
-
   }
-  growingFlowers() {
-    this.image.addEventListener('click', function (event) {
+
+  flowerIsGrowing() {
+    this.image.addEventListener('click', (event) => {
 
       if (this.index < this.imagePaths.length - 1) {
+
         this.index++
         this.image = event.target
         this.image.src = this.imagePaths[this.index]
 
       } else if (this.index > this.imagePaths.length - 1) {
-        this.index = this.imagePaths.length - 1
 
+        this.index = this.imagePaths.length - 1
         this.image = event.target
         this.image.src = this.imagePaths[this.index]
 
       }
-    }.bind(this))
+    })
   }
-  displaying() {
+
+  displayingFlowers() {
     this.image.src = this.imagePaths[this.index]
     this.image.setAttribute('class', 'flowers')
-
   }
+
   toggleShake(element) {
     // Animations only occur when a new class is added to the element.
     // Since we want this to happen every time, we can switch between two different animations
@@ -60,190 +51,176 @@ class Flowers {
   }
 }
 
-// 20 instances of Flowers class
+// somes instances of Flowers class
 for (let i = 0; i < 20; i++) {
-  let Flower2 = new Flowers()
-  Flower2.displaying()
-  Flower2.growingFlowers()
+  let Flower = new Flowers()
+  Flower.displayingFlowers()
+  Flower.flowerIsGrowing()
 };
 
-
-//Pokemon class
+//Pokemon class Flowers's child
 class Pokemon extends Flowers {
   constructor(characterImages) {
+
     super()
-    this.pokeImage = document.querySelector('img');
-    this.imagesContainer = ['images/pokeball.png', ...characterImages];
-    this.nextTransformation = 0;
-    this.ballAlreadyBroken = false;
-    this.pokeImage.setAttribute('class', 'charmander');
+    this.currentPokemonImage = document.querySelector('img');
+    this.pokemonTransformationImages = ['images/pokeball.png', ...characterImages];
+    this.newTransformation = 0; 
+    this.indexPokemonImage = 0;
+    this.currentPokemonImage.setAttribute('class', 'pokemon');
+    pokemonSection.append(this.currentPokemonImage)
 
-    charmanaderDiv.append(this.pokeImage)
   }
-  growingPokemon() {
-    super.growingFlowers()
 
-    this.pokeImage.addEventListener('click', function (event) {
-      this.nextTransformation = Math.round(Math.random());
-      console.log(event.offsetTop)
+  pokemonIsGrowing() {
+    this.currentPokemonImage.addEventListener('click', function (event) {
+      this.newTransformation = Math.round(Math.random());
 
-      if (this.nextTransformation === 1 && (!this.ballAlreadyBroken || this.ballAlreadyBroken) && !this.lastTransformation) {
+      if (this.newTransformation === 1 && (!this.ballAlreadyBroken || this.ballAlreadyBroken) ) {
 
-        if (this.index < this.imagesContainer.length - 1) {
-          this.index++;
-          this.pokeImage = event.target
-          this.pokeImage.src = this.imagesContainer[this.index]
-          this.toggleShake(this.pokeImage)
+        if (this.indexPokemonImage < this.pokemonTransformationImages.length - 1) {
+          this.indexPokemonImage++;
+          this.currentPokemonImage = event.target
+          this.currentPokemonImage.src = this.pokemonTransformationImages[this.indexPokemonImage]
+          this.toggleShake(this.currentPokemonImage)
 
-        } else if (this.index > this.imagesContainer.length - 1) {
-          this.index = this.imagesContainer.length - 1
-          this.pokeImage = event.target
-          this.pokeImage.src = this.imagesContainer[this.index]
+        } else if (this.indexPokemonImage >= this.pokemonTransformationImages.length - 1) {
+          this.indexPokemonImage = this.pokemonTransformationImages.length - 1
+          this.currentPokemonImage = event.target
+          this.currentPokemonImage.src = this.pokemonTransformationImages[this.indexPokemonImage]
           this.lastTransformation = true
         }
         this.ballAlreadyBroken = true
-      } else if (this.nextTransformation === 0 && this.ballAlreadyBroken === false && !this.lastTransformation) {
-        this.pokeImage = event.target
-        this.pokeImage.src = this.imagesContainer[this.index]
-        this.toggleShake(this.pokeImage)
 
-      } else if (this.nextTransformation === 0 && this.ballAlreadyBroken === true && !this.lastTransformation) {
+      } else if (this.newTransformation === 0 && this.ballAlreadyBroken === false ) {
 
-        if (this.index < this.imagesContainer.length - 1) {
+        this.currentPokemonImage = event.target
+        this.currentPokemonImage.src = this.pokemonTransformationImages[this.indexPokemonImage]
+        this.toggleShake(this.currentPokemonImage)
 
-          this.pokeImage = event.target
-          this.pokeImage.src = this.imagesContainer[this.index]
-          this.toggleShake(this.pokeImage)
+      } else if (this.newTransformation === 0 && this.ballAlreadyBroken === true ) {
 
-        } else if (this.index > this.imagesContainer.length - 1) {
-          this.index = this.imagesContainer.length - 1
-          this.pokeImage = event.target
-          this.pokeImage.src = this.imagesContainer[this.index]
-          this.lastTransformation = true
+        if (this.indexPokemonImage < this.pokemonTransformationImages.length - 1) {
 
+          this.currentPokemonImage = event.target
+          this.currentPokemonImage.src = this.pokemonTransformationImages[this.indexPokemonImage]
+          this.toggleShake(this.currentPokemonImage)
+
+        } else if (this.indexPokemonImage >= this.pokemonTransformationImages.length - 1) {
+          this.indexPokemonImage = this.pokemonTransformationImages.length - 1
+          this.currentPokemonImage = event.target
+          this.currentPokemonImage.src = this.pokemonTransformationImages[this.indexPokemonImage]
         }
       }
-
     }.bind(this));
   }
 
-  displayingPokeball() {
-    super.displaying()
-    this.pokeImage.src = this.imagesContainer[this.index]
+  displayingPokemonBall() {
+    this.currentPokemonImage.src = this.pokemonTransformationImages[this.indexPokemonImage]
   }
 }
 
-
 // Pokemon displaying
+const pokemonSection = document.createElement('section')
+pokemonSection.setAttribute('class', 'pokemonContainer')
+document.body.append(pokemonSection)
 
-const charmanaderDiv = document.createElement('section')
-charmanaderDiv.setAttribute('class', 'charmanderContainer')
-document.body.append(charmanaderDiv)
-
-//some instance of Pokemon
+//some instances of Pokemon
 //charmander
 const charmanderImages = ['images/charmander/charmander0.png', 'images/charmander/charmander1.png', 'images/charmander/charmander2.png'];
 const Charmander = new Pokemon(charmanderImages)
-Charmander.displayingPokeball()
-Charmander.growingPokemon()
+Charmander.displayingPokemonBall()
+Charmander.pokemonIsGrowing()
 
 //pikachu
 const pikachuImages = ['images/pikachu/pikachu0.png', 'images/pikachu/pikachu1.png', 'images/pikachu/pikachu2.png', 'images/pikachu/pikachu3.png',]
-const pikachu = new Pokemon(pikachuImages)
-pikachu.displayingPokeball()
-pikachu.growingPokemon()
+const Pikachu = new Pokemon(pikachuImages)
+Pikachu.displayingPokemonBall()
+Pikachu.pokemonIsGrowing()
 
 //mankey
 const mankeyImages = ['images/mankey/mankey0.png', 'images/mankey/mankey1.png', 'images/mankey/mankey2.png']
-const Charmander3 = new Pokemon(mankeyImages)
-Charmander3.displayingPokeball()
-Charmander3.growingPokemon()
+const Mankey = new Pokemon(mankeyImages)
+Mankey.displayingPokemonBall()
+Mankey.pokemonIsGrowing()
 
 //cyndaquil
 const cyndaquilImages = ['images/cyndaquil/quivala0.png', 'images/cyndaquil/quivala1.png', 'images/cyndaquil/quivala2.png', 'images/cyndaquil/quivala3.png']
-const Charmander4 = new Pokemon(cyndaquilImages)
-Charmander4.displayingPokeball()
-Charmander4.growingPokemon()
+const Cyndaquil = new Pokemon(cyndaquilImages)
+Cyndaquil.displayingPokemonBall()
+Cyndaquil.pokemonIsGrowing()
 
-// let eeveeCharacter = ['images/pokeball.png', 'images/charmander/charmander0.png', 'images/charmander/charmander1.png', 'images/charmander/charmander2.png'];
-
-//eevee displaying
+//Eevee class Flowers's child
 class EeveeClass extends Flowers {
   constructor() {
-    super()
-    this.eeveeImage = document.createElement('img')
-    this.eeveeContainer = ['images/pokeball.png', 'images/eevee/eevee0.png', 'images/eevee/eevee1.png', 'images/eevee/eevee2.png', 'images/eevee/eevee3.png', 'images/eevee/eevee4.png', 'images/eevee/eevee5.png', 'images/eevee/eevee6.png', 'images/eevee/eevee7.png', 'images/eevee/eevee8.png']
-    this.transformation = 0;
-    this.nextTransformation = 0;
-    this.ballAlreadyBroken = false;
-    this.eeveeImage.setAttribute('class', 'eevee');
 
-    eeveeDiv.append(this.eeveeImage)
+    super()
+    this.eeveeCurrentImage = document.createElement('img')
+    this.eeveeTransformationImages = ['images/pokeball.png', 'images/eevee/eevee0.png', 'images/eevee/eevee1.png', 'images/eevee/eevee2.png', 'images/eevee/eevee3.png', 'images/eevee/eevee4.png', 'images/eevee/eevee5.png', 'images/eevee/eevee6.png', 'images/eevee/eevee7.png', 'images/eevee/eevee8.png'];
+    this.transformation = 0;
+    this.nextTransformation = 0; 
+    this.eeveeCurrentImage.setAttribute('class', 'eevee');
+    eeveeSection.append(this.eeveeCurrentImage)
   }
 
-  growingEevee() {
-    super.growingFlowers()
-
-    this.eeveeImage.addEventListener('click', function (event) {
+  eeveeIsGrowing() {
+    super.flowerIsGrowing()
+    this.eeveeCurrentImage.addEventListener('click', (event) => {
       this.transformation = Math.round(Math.random());
-      this.nextTransformation = Math.floor(Math.random()*8) + 2
-      // console.log(this.transformation)
-      
-
+    
       if (this.transformation ===  1 && !this.ballAlreadyBroken && !this.lastTransformation ) {
 
-        this.eeveeImage = event.target
-        this.eeveeImage.src = this.eeveeContainer[this.transformation]
-        this.toggleShake(this.eeveeImage)
-
+        this.eeveeCurrentImage = event.target
+        this.eeveeCurrentImage.src = this.eeveeTransformationImages[this.transformation]
+        this.toggleShake(this.eeveeCurrentImage)
         this.ballAlreadyBroken = true
-      } else if (this.transformation === 1 && this.ballAlreadyBroken && !this.lastTransformation) {
-        this.eeveeImage = event.target
-        this.eeveeImage.src = this.eeveeContainer[this.nextTransformation]
-        this.toggleShake(this.eeveeImage)
 
+      } else if (this.transformation === 1 && this.ballAlreadyBroken && !this.lastTransformation) {
+
+        this.nextTransformation = Math.floor(Math.random() * 8) + 2
+        this.eeveeCurrentImage = event.target
+        this.eeveeCurrentImage.src = this.eeveeTransformationImages[this.nextTransformation]
+        this.toggleShake(this.eeveeCurrentImage)
         this.lastTransformation = true;
        
-
       } else if (this.transformation === 0 && (!this.ballAlreadyBroken || this.ballAlreadyBroken) && !this.lastTransformation){
-        this.eeveeImage = event.target
-        this.toggleShake(this.eeveeImage)
-      }
 
-    }.bind(this));
+        this.eeveeCurrentImage = event.target
+        this.toggleShake(this.eeveeCurrentImage)
+      }
+    });
   }
 
-  displayingPokeball() {
-    super.displaying()
-    this.eeveeImage.src = this.eeveeContainer[this.index]
+  eeveePokemonBall() {
+    super.displayingFlowers()
+    this.eeveeCurrentImage.src = this.eeveeTransformationImages[this.index]
   }
 }
 
+// Eevee displaying
+const eeveeSection = document.createElement('section')
+eeveeSection.setAttribute('class', 'eeveeContainer')
+document.body.append(eeveeSection)
 
-// eevee displaying
-const eeveeDiv = document.createElement('section')
-eeveeDiv.setAttribute('class', 'eeveeDiv')
-document.body.append(eeveeDiv)
-
-//some instance of eevee  Pokemon
+//some instances of eevee  Pokemon
 //eevee1
-const eevee1 = new EeveeClass()
-eevee1.displayingPokeball()
-eevee1.growingEevee()
+const Eevee1 = new EeveeClass()
+Eevee1.eeveePokemonBall()
+Eevee1.eeveeIsGrowing()
 
 //eevee2
-const eevee2 = new EeveeClass()
-eevee2.displayingPokeball()
-eevee2.growingEevee()
+const Eevee2 = new EeveeClass()
+Eevee2.eeveePokemonBall()
+Eevee2.eeveeIsGrowing()
 
 //eevee3
-const eevee3 = new EeveeClass()
-eevee3.displayingPokeball()
-eevee3.growingEevee()
+const Eevee3 = new EeveeClass()
+Eevee3.eeveePokemonBall()
+Eevee3.eeveeIsGrowing()
 
 //eevee4
-const eevee4 = new EeveeClass()
-eevee4.displayingPokeball()
-eevee4.growingEevee()
+const Eevee4 = new EeveeClass()
+Eevee4.eeveePokemonBall()
+Eevee4.eeveeIsGrowing()
  
 
